@@ -401,6 +401,13 @@ print_full_info (char const *username)
         ok &= false;
         return;
       }
+    else if (sysconf(_SC_NGROUPS_MAX) > 0 && n_groups > sysconf(_SC_NGROUPS_MAX))
+      {
+        fprintf (stderr,
+                 _("Warning: User '%s' may be member of more groups than "\
+                   "the system allows\n"),
+                 (username != NULL) ? username : "");
+      }
 
     if (n_groups > 0)
       fputs (_(" groups="), stdout);
